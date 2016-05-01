@@ -15,7 +15,7 @@ if matches[2] == "init" or matches[2] == "initialize" then
 -- Remember to customize this emote! --v
 		send("emote puts "..hat_pool_size.." pieces of paper into a hat and shakes it up.")
 	else
-		echo(":: Syntax: hat initialize [number of slips in hat, must be greater than 1]")
+		cecho("<ivory>:: Syntax: hat initialize [number of slips in hat, must be greater than 1]")
 	end
 elseif matches[2] == "draw" then
 	if not hat_numbers or not hat_pool_size or not hat_drawn then
@@ -39,6 +39,6 @@ elseif matches[2] == "draw" then
 		end
 	end
 else
-	echo("<ivory>:: Syntax: hat initialize [number of slips in hat]")
-	echo("<ivory>\n           hat draw")
+	cecho("<ivory>:: Syntax: hat initialize [number of slips in hat]")
+	cecho("<ivory>\n           hat draw")
 end
