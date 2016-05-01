@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.0">
+    <AliasPackage>
+        <Alias isActive="yes" isFolder="no">
+            <name>Numbers From Hat</name>
+            <script>-- Script created by Utasa from Lusternia.
+
+if matches[2] == &quot;init&quot; or matches[2] == &quot;initialize&quot; then
+	if matches[3] and matches[3] ~= &quot;&quot; and tonumber(matches[3]) &gt; 1 then
+		hat_pool_size = tonumber(matches[3])
+		hat_drawn = 0
+		hat_numbers = {}
+		for i=1, hat_pool_size, 1 do
+			hat_numbers[i] = true
+		end
+		cecho(&quot;&lt;ivory&gt;:: Hat initialized to contain &quot;..hat_pool_size..&quot; numbers.&quot;)
+
+-- Remember to customize this emote! --v
+		send(&quot;emote puts &quot;..hat_pool_size..&quot; pieces of paper into a hat and shakes it up.&quot;)
+	else
+		echo(&quot;:: Syntax: hat initialize [number of slips in hat, must be greater than 1]&quot;)
+	end
+elseif matches[2] == &quot;draw&quot; then
+	if not hat_numbers or not hat_pool_size or not hat_drawn then
+		cecho(&quot;&lt;ivory&gt;:: You must first execute 'hat initialize &lt;number of slips in hat&gt;' before trying to draw from the hat.&quot;)
+		return
+	elseif hat_drawn == hat_pool_size then
+		cecho(&quot;&lt;red&gt;:: There are no more numbers to draw from the hat.&quot;)
+		return
+	else
+		while true do
+			local rand = math.random(hat_pool_size)
+			if hat_numbers[rand] then
+				cecho(&quot;&lt;ivory&gt;:: Number drawn: &quot;..rand..&quot;.&quot;)
+
+-- Remember to customize this emote! --v
+				send(&quot;emote reaches into the hat and draws the number &quot;..rand..&quot;.&quot;)
+				hat_numbers[rand] = nil
+				hat_drawn = hat_drawn + 1
+				return
+			end
+		end
+	end
+else
+	echo(&quot;&lt;ivory&gt;:: Syntax: hat initialize [number of slips in hat]&quot;)
+	echo(&quot;&lt;ivory&gt;\n           hat draw&quot;)
+end</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^hat(?:[ ]*)(\w*)(?:[ ]*)([0-9]*)$</regex>
+        </Alias>
+    </AliasPackage>
+</MudletPackage>

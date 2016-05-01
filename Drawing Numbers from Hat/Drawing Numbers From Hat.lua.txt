@@ -1,0 +1,44 @@
+-- Regex pattern: ^hat(?:[ ]*)(\w*)(?:[ ]*)([0-9]*)$
+
+-- Script created by Utasa from Lusternia.
+
+if matches[2] == "init" or matches[2] == "initialize" then
+	if matches[3] and matches[3] ~= "" and tonumber(matches[3]) > 1 then
+		hat_pool_size = tonumber(matches[3])
+		hat_drawn = 0
+		hat_numbers = {}
+		for i=1, hat_pool_size, 1 do
+			hat_numbers[i] = true
+		end
+		cecho("<ivory>:: Hat initialized to contain "..hat_pool_size.." numbers.")
+
+-- Remember to customize this emote! --v
+		send("emote puts "..hat_pool_size.." pieces of paper into a hat and shakes it up.")
+	else
+		echo(":: Syntax: hat initialize [number of slips in hat, must be greater than 1]")
+	end
+elseif matches[2] == "draw" then
+	if not hat_numbers or not hat_pool_size or not hat_drawn then
+		cecho("<ivory>:: You must first execute 'hat initialize <number of slips in hat>' before trying to draw from the hat.")
+		return
+	elseif hat_drawn == hat_pool_size then
+		cecho("<red>:: There are no more numbers to draw from the hat.")
+		return
+	else
+		while true do
+			local rand = math.random(hat_pool_size)
+			if hat_numbers[rand] then
+				cecho("<ivory>:: Number drawn: "..rand..".")
+
+-- Remember to customize this emote! --v
+				send("emote reaches into the hat and draws the number "..rand..".")
+				hat_numbers[rand] = nil
+				hat_drawn = hat_drawn + 1
+				return
+			end
+		end
+	end
+else
+	echo("<ivory>:: Syntax: hat initialize [number of slips in hat]")
+	echo("<ivory>\n           hat draw")
+end
